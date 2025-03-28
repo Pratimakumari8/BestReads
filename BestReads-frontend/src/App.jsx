@@ -6,6 +6,7 @@ import Signup from "./pages/Signup";
 import PrivateRoute from "./components/PrivateRoute";
 import ManageBooks from "./pages/ManageBooks";
 import AdminRoute from "./components/AdminRoute";
+import BookDetails from "./pages/BookDetails";
 function App() {
   return (
     <Router>
@@ -16,7 +17,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin/books" element={<AdminRoute><ManageBooks /></AdminRoute>} />
-      
+        <Route path="/book/:id" element={<BookDetails />} />
       </Routes>
     </Router>
   );

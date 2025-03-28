@@ -1,26 +1,38 @@
 const express = require("express");
 const Book = require("../models/Book");
-const Category = require("../models/Category");
 
 const router = express.Router();
 
-// 📚 Get top 10 books by category
-router.get("/:categoryName", async (req, res) => {
+// 📚 Get books with pagination
+router.get("/", async (req, res) => {
   try {
-    const categoryName = req.params.categoryName;
+    const { category } = req.query; // Get category from query params
+    const page = parseInt(req.query.page) || 1;
+    const limit = 5; // Show 5 books per page
+    const skip = (page - 1) * limit;
 
-    // Find category by name
-    const category = await Category.findOne({ name: categoryName });
-    if (!category) {
-      return res.status(404).json({ message: "Category not found" });
+    // Build query to filter books by category if provided
+    let query = {};
+    if (category) {
+      query.category = category; // Assuming "category" is a field in Book model
     }
 
-    // Find top 10 books for the category
-    const books = await Book.find({ category: category._id }).limit(10);
+    // Fetch paginated books
+    const books = await Book.find(query)
+      .sort({ sales: -1 }) // Sort by most sold (or use { rating: -1 } for highest rated)
+      .skip(skip)
+      .limit(limit);
 
-    res.status(200).json(books);
+    const totalBooks = await Book.countDocuments(query);
+
+    res.json({
+      books,
+      totalPages: Math.ceil(totalBooks / limit),
+      currentPage: page,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    console.error("Error fetching books:", error);
+    res.status(500).json({ message: "Error fetching books" });
   }
 });
 
