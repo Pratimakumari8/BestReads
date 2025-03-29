@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { API_BASE_URL } from "../api";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/booklist.css"; // Import custom styles
 
 const BookList = () => {
   const [books, setBooks] = useState([]);
@@ -29,42 +29,26 @@ const BookList = () => {
   if (loading) return <div className="text-center mt-5">Loading books...</div>;
 
   return (
-    <div className="container mt-5">
-      <h2>Top Books</h2>
-      <div className="row">
+    <div className="container">
+      <h2 className="title">📚 Best Books</h2>
+      <div className="book-grid">
         {books.map((book) => (
-          <div key={book._id} className="col-md-4 mb-4">
-            <div className="card">
-              <img src={book.image} className="card-img-top" alt={book.title} />
-              <div className="card-body">
-                <h5 className="card-title">{book.title}</h5>
-                <p className="card-text">{book.author}</p>
-                <Link to={`/book/${book._id}`} className="btn btn-primary">
-                  View Details
-                </Link>
-              </div>
+          <div key={book._id} className="book-card">
+            <img src={book.image} alt={book.title} className="book-image" />
+            <div className="book-details">
+              <h5 className="book-title">{book.title}</h5>
+              <p className="book-author">{book.author}</p>
+              <Link to={`/book/${book._id}`} className="btn">Read More</Link>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Pagination Controls */}
-      <div className="d-flex justify-content-center mt-4">
-        <button
-          className="btn btn-secondary mx-2"
-          disabled={page === 1}
-          onClick={() => setPage(page - 1)}
-        >
-          Previous
-        </button>
-        <span className="mx-2">Page {page} of {totalPages}</span>
-        <button
-          className="btn btn-secondary mx-2"
-          disabled={page === totalPages}
-          onClick={() => setPage(page + 1)}
-        >
-          Next
-        </button>
+      {/* Pagination */}
+      <div className="pagination">
+        <button className="btn" disabled={page === 1} onClick={() => setPage(page - 1)}>⏪ Previous</button>
+        <span className="page-info">Page {page} of {totalPages}</span>
+        <button className="btn" disabled={page === totalPages} onClick={() => setPage(page + 1)}>Next ⏩</button>
       </div>
     </div>
   );

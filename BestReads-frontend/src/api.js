@@ -7,9 +7,10 @@ export const fetchCategories = async () => {
 };
 
 export const fetchBooksByCategory = async (categoryName) => {
-  const response = await fetch(`${API_BASE_URL}/books/${categoryName}`);
+  const response = await fetch(`${API_BASE_URL}/books?category=${categoryName}`);
   return response.json();
 };
+
 
 export const addBook = async (bookData, token) => {
   const response = await fetch(`${API_BASE_URL}/books`, {

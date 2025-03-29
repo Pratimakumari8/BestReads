@@ -1,0 +1,45 @@
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .book-card {
+    background: #faebd7;
+    border: 3px solid #5a3825;
+    box-shadow: 4px 4px 0px #3e2723;
+    padding: 15px;
+    text-align: center;
+    border-radius: 10px;
+    font-family: 'EB Garamond', serif;
+  }
+  
+  .book-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-bottom: 2px solid #8d5524;
+  }
+  
+  .book-title {
+    font-family: 'Special Elite', cursive;
+    font-size: 1.2em;
+    margin: 10px 0;
+  }
+  
+  .book-author {
+    font-size: 1em;
+    color: #5a3825;
+  }
+  
+  .pagination {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .page-info {
+    font-weight: bold;
+    margin: 0 15px;
+    font-family: 'Special Elite', cursive;
+  }
+  

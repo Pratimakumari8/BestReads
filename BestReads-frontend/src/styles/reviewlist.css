@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Shadows+Into+Light&display=swap');
+
+.review-container {
+  background-color: #f7f1e3; /* Old paper background */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.review-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 28px;
+  color: #5a3e36;
+  margin-bottom: 15px;
+}
+
+.review-card {
+  background: #fffdfa;
+  padding: 15px;
+  border-left: 5px solid #d2691e;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  position: relative;
+}
+
+.review-card::before {
+  content: '"';
+  font-size: 30px;
+  font-family: 'Shadows Into Light', cursive;
+  color: #b5651d;
+  position: absolute;
+  top: 5px;
+  left: 10px;
+}
+
+.review-text {
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #444;
+  margin-left: 30px; /* Indentation for handwritten effect */
+}
+
+.review-author {
+  font-family: 'Dancing Script', cursive;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: right;
+  color: #7b4b3a;
+  margin-top: 10px;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+
+.btn {
+  background: #d2691e;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 5px;
+}
+
+.btn:disabled {
+  background: #bbb;
+  cursor: not-allowed;
+}
