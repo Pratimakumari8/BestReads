@@ -1,3 +1,4 @@
+/* Root container */
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -5,19 +6,23 @@
   text-align: center;
 }
 
+/* Logo styles with hover effect */
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* Logo spin animation for reduced motion preferences */
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -33,10 +38,35 @@
   }
 }
 
+/* Card styling */
 .card {
   padding: 2em;
 }
 
+/* Link text color */
 .read-the-docs {
   color: #888;
+}
+
+/* Page transition styles for fade and slide effect */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 500ms, transform 500ms ease-in-out;
+}
+
+.page-transition-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 500ms, transform 500ms ease-in-out;
 }

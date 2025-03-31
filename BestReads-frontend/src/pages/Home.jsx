@@ -3,7 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import { fetchBooksByCategory, fetchCategories } from "../api";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
-
+import BookOfTheMonth from "../components/BookOfTheMonth";
 const Home = () => {
   const [books, setBooks] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -29,9 +29,25 @@ const Home = () => {
   useEffect(() => {
     const getBooks = async () => {
       try {
-        const data = await fetchBooksByCategory(category);
-        setBooks(Array.isArray(data) ? data : []);
-        setFilteredBooks(Array.isArray(data) ? data : []);
+        const data = await fetchBooksByCategory(category, 10); // Request 10 books
+        if (!data || !Array.isArray(data.books) || data.books.length === 0) {
+          console.error("Invalid books data:", {
+            books: data.books,
+            totalPages: data.totalPages,
+            currentPage: data.currentPage,
+          });
+          setBooks([]);
+          setFilteredBooks([]);
+          return;
+        } else {
+          console.log("Valid books data:", {
+            books: data.books,
+            totalPages: data.totalPages,
+            currentPage: data.currentPage,
+          });
+        }
+        setBooks(data.books);
+        setFilteredBooks(data.books);
       } catch (error) {
         console.error("Error fetching books:", error);
         setBooks([]);
@@ -91,6 +107,10 @@ const Home = () => {
           />
         </div>
       </div>
+      <div className="home-container">
+      <h1>Welcome to BestReads 📚</h1>
+      <BookOfTheMonth />  {/* ✅ Add this here */}
+    </div>
 
       {/* Books List */}
       <div className="row">

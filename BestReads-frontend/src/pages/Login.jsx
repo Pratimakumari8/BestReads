@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { API_BASE_URL } from "../api"; // Import API_BASE_URL
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -9,7 +10,11 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // Add API call here
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
     navigate("/categories");
   };
 

@@ -27,7 +27,10 @@ const BookList = () => {
   }, [page]);
 
   if (loading) return <div className="text-center mt-5">Loading books...</div>;
-
+  if (loading) {
+    return <div className="loading-spinner"></div>;
+  }
+  
   return (
     <div className="container">
       <h2 className="title">📚 Best Books</h2>

@@ -31,9 +31,9 @@ const seedBooks = async () => {
     }
 
     await Book.deleteMany();
-    await Book.insertMany(books);
+    const result = await Book.insertMany(books);
 
-    console.log("✅ 150 Books seeded successfully!");
+    console.log(`✅ ${result.length} Books seeded successfully!`);
     process.exit();
   } catch (error) {
     console.error("❌ Error seeding books:", error);

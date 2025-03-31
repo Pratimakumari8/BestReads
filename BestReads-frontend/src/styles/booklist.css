@@ -1,45 +1,76 @@
 .book-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
-  
-  .book-card {
-    background: #faebd7;
-    border: 3px solid #5a3825;
-    box-shadow: 4px 4px 0px #3e2723;
-    padding: 15px;
-    text-align: center;
-    border-radius: 10px;
-    font-family: 'EB Garamond', serif;
-  }
-  
-  .book-image {
-    width: 100%;
-    height: 250px;
-    object-fit: cover;
-    border-bottom: 2px solid #8d5524;
-  }
-  
-  .book-title {
-    font-family: 'Special Elite', cursive;
-    font-size: 1.2em;
-    margin: 10px 0;
-  }
-  
-  .book-author {
-    font-size: 1em;
-    color: #5a3825;
-  }
-  
-  .pagination {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .page-info {
-    font-weight: bold;
-    margin: 0 15px;
-    font-family: 'Special Elite', cursive;
-  }
-  
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.book-card {
+  background: #faebd7;
+  border: 3px solid #5a3825;
+  box-shadow: 4px 4px 0px #3e2723;
+  padding: 15px;
+  text-align: center;
+  border-radius: 10px;
+  font-family: 'EB Garamond', serif;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease; /* Added transition for hover effect */
+}
+
+.book-card:hover {
+  transform: scale(1.05); /* Slightly enlarge the card */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add shadow for depth */
+}
+
+.book-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-bottom: 2px solid #8d5524;
+}
+
+.book-title {
+  font-family: 'Special Elite', cursive;
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+.book-author {
+  font-size: 1em;
+  color: #5a3825;
+}
+
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.page-info {
+  font-weight: bold;
+  margin: 0 15px;
+  font-family: 'Special Elite', cursive;
+}
+
+/* Button hover effect */
+.btn {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #ff5733; /* Change button color */
+  transform: translateY(-3px); /* Slight upward movement */
+}
+
+/* Loading animation for books */
+.loading-spinner {
+  border: 8px solid #f3f3f3; /* Light background */
+  border-top: 8px solid #3498db; /* Blue color for spinner */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+  margin: 50px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

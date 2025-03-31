@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Playfair+Display&display=swap');
+
+.botm-container {
+  background: #f4ecd8; /* Aged paper background */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+  max-width: 700px;
+  margin: 20px auto;
+  text-align: center;
+  font-family: 'EB Garamond', serif;
+}
+
+.botm-title {
+  font-size: 32px;
+  color: #5a3e36;
+  font-family: 'Playfair Display', serif;
+}
+
+.botm-card {
+  display: flex;
+  align-items: center;
+  background: #fff9f1;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.botm-image {
+  width: 120px;
+  height: 180px;
+  border-radius: 5px;
+  margin-right: 20px;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.botm-details {
+  text-align: left;
+}
+
+.botm-book-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4d2c1a;
+}
+
+.botm-author {
+  font-size: 18px;
+  font-style: italic;
+  color: #7b4b3a;
+}
+
+.botm-description {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.5;
+  margin: 10px 0;
+}
+
+.btn {
+  background: #8b4513;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.btn:hover {
+  background: #5a2c0c;
+}
