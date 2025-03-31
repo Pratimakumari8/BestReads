@@ -8,11 +8,15 @@ const router = express.Router();
 
 router.post("/signup", async (req, res) => {
   try {
+    console.log("Signup request received:", req.body); // Debug log
     const { name, email, password } = req.body;
 
     // Check if user already exists
     let user = await User.findOne({ email });
-    if (user) return res.status(400).json({ message: "User already exists" });
+    if (user) {
+      console.warn("User already exists:", email); // Debug log
+      return res.status(400).json({ message: "User already exists" });
+    }
 
     // Hash password
     const salt = await bcrypt.genSalt(10);
@@ -21,13 +25,19 @@ router.post("/signup", async (req, res) => {
     // Create new user
     user = new User({ name, email, password: hashedPassword });
     await user.save();
+    console.log("User created successfully:", user); // Debug log
+
+    // Ensure JWT_SECRET is set
+    if (!process.env.JWT_SECRET) {
+      console.error("JWT_SECRET is not set in the environment variables."); // Debug log
+      return res.status(500).json({ message: "Server configuration error" });
+    }
 
     // Generate JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
     res.status(201).json({ token, user: { id: user._id, name, email } });
   } catch (error) {
-    console.error(error);  // Add this to log the actual error
+    console.error("Error during signup:", error); // Debug log
     res.status(500).json({ message: "Server error" });
   }
   

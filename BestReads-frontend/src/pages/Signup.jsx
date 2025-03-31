@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../api"; // Import API_BASE_URL
+import { useState } from "react"; // Ensure this is correctly imported
+import { useNavigate } from "react-router-dom"; // Ensure this is correctly imported
+import { API_BASE_URL } from "../api"; // Ensure API_BASE_URL is defined in ../api
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -10,17 +10,31 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${API_BASE_URL}/auth/signup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-    });
-    const data = await response.json();
-    if (response.ok) {
+    try {
+      const apiUrl = `${API_BASE_URL}/auth/signup`;
+      console.log("API URL:", apiUrl); // Debug log
+      console.log("Sending signup request:", { name, email, password }); // Debug log
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Signup error:", errorData.message); // Debug log
+        alert(errorData.message || "An error occurred during signup.");
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Signup successful:", data); // Debug log
       alert("Signup successful! Please login.");
       navigate("/login");
-    } else {
-      alert(data.message);
+    } catch (error) {
+      console.error("Error during signup:", error); // Debug log
+      alert("Failed to connect to the server. Please try again later.");
     }
   };
 

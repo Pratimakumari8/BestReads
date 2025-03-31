@@ -30,26 +30,30 @@ const Categories = () => {
   }
 
   return (
-    <div className="container mt-4">
-      <h2 className="text-center">📚 Categories</h2>
-      <div className="row">
+    <div className="container mt-5">
+      <h1 className="text-center display-4 fw-bold">Explore Categories</h1>
+      <div className="row mt-4">
         {categories.length > 0 ? (
           categories.map((category) => (
-            <div className="col-md-4 mb-4" key={category._id}>
+            <div className="col-md-4 mb-5" key={category._id}> {/* Increased spacing with mb-5 */}
               <Link
-                to={`/books/${category.name}`} // Navigate to the books list for the category
-                className="text-decoration-none"
+                to={`/books/${category.name}`}
+                className="category-card text-decoration-none"
               >
                 <div
-                  className="card h-100"
-                  style={{ cursor: "pointer", transition: "transform 0.2s" }}
+                  className="card p-4 text-center"
+                  style={{
+                    cursor: "pointer",
+                    transition: "transform 0.2s",
+                    border: "2px solid #d2b48c",
+                    borderRadius: "10px",
+                    marginBottom: "20px", // Added margin for spacing
+                  }}
                 >
-                  <div className="card-body">
-                    <h5 className="card-title">{category.name}</h5>
-                    <p className="card-text">
-                      {category.description || "No description available."}
-                    </p>
-                  </div>
+                  <h5 className="fw-bold">{category.name}</h5>
+                  <p className="card-text">
+                    {category.description || "No description available."}
+                  </p>
                 </div>
               </Link>
             </div>

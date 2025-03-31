@@ -52,4 +52,18 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Endpoint to fetch the Book of the Month
+router.get('/book-of-the-month', async (req, res) => {
+  try {
+    const bookOfTheMonth = await Book.findOne({ isBookOfTheMonth: true });
+    if (!bookOfTheMonth) {
+      return res.status(404).json({ message: 'Book of the month not found.' });
+    }
+    res.json(bookOfTheMonth);
+  } catch (error) {
+    console.error('Error fetching Book of the Month:', error);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+});
+
 module.exports = router;

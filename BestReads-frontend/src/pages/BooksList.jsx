@@ -1,60 +1,67 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { API_BASE_URL } from "../api";
-import "../styles/booklist.css"; // Import custom styles
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { fetchBooksByCategory } from "../api";
 
-const BookList = () => {
+const BooksList = () => {
+  const { categoryName } = useParams();
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchBooks = async () => {
+    const getBooks = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/books?page=${page}`);
-        const data = await response.json();
-        setBooks(data.books);
-        setTotalPages(data.totalPages);
+        const data = await fetchBooksByCategory(categoryName, 10); // Fetch 10 books
+        console.log("API Response:", data); // Debug log to inspect API response
+        setBooks(Array.isArray(data.books) ? data.books : []);
         setLoading(false);
-      } catch (error) {
-        console.error("Error fetching books:", error);
+      } catch (err) {
+        setError("Failed to fetch books.");
         setLoading(false);
       }
     };
+    getBooks();
+  }, [categoryName]);
 
-    fetchBooks();
-  }, [page]);
-
-  if (loading) return <div className="text-center mt-5">Loading books...</div>;
   if (loading) {
-    return <div className="loading-spinner"></div>;
+    return <p className="text-center">Loading books...</p>;
   }
-  
-  return (
-    <div className="container">
-      <h2 className="title">📚 Best Books</h2>
-      <div className="book-grid">
-        {books.map((book) => (
-          <div key={book._id} className="book-card">
-            <img src={book.image} alt={book.title} className="book-image" />
-            <div className="book-details">
-              <h5 className="book-title">{book.title}</h5>
-              <p className="book-author">{book.author}</p>
-              <Link to={`/book/${book._id}`} className="btn">Read More</Link>
-            </div>
-          </div>
-        ))}
-      </div>
 
-      {/* Pagination */}
-      <div className="pagination">
-        <button className="btn" disabled={page === 1} onClick={() => setPage(page - 1)}>⏪ Previous</button>
-        <span className="page-info">Page {page} of {totalPages}</span>
-        <button className="btn" disabled={page === totalPages} onClick={() => setPage(page + 1)}>Next ⏩</button>
+  if (error) {
+    return <p className="text-center text-danger">{error}</p>;
+  }
+
+  return (
+    <div className="container mt-5">
+      <h1 className="text-center display-4 fw-bold">{categoryName} Books</h1> {/* Display category name */}
+      <div className="row mt-4">
+        {books.length > 0 ? (
+          books.map((book) => (
+            <div className="col-md-4 mb-4" key={book._id || book.id || book.title}> {/* Use a fallback key */}
+              <div className="card h-100">
+                <img
+                  src={book.image || "https://via.placeholder.com/150"} // Fallback image if book.image is missing
+                  alt={book.title || "Book Image"} // Fallback alt text
+                  className="card-img-top"
+                  style={{ height: "250px", objectFit: "cover" }}
+                />
+                <div className="card-body text-center">
+                  <h5 className="card-title">{book.title || "Untitled Book"}</h5> {/* Fallback title */}
+                  <p className="card-text">
+                    {book.description
+                      ? book.description.substring(0, 100) + "..."
+                      : "No description available."}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p className="text-center">No books found in this category.</p>
+        )}
       </div>
     </div>
   );
 };
 
-export default BookList;
+export default BooksList;

@@ -1,6 +1,7 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { CSSTransition, TransitionGroup } from "react-transition-group"; // For transitions
+import { TransitionGroup, CSSTransition } from "react-transition-group"; // Use CSSTransition
+import ErrorBoundary from "./components/ErrorBoundary"; // Import ErrorBoundary
 
 // Lazy load components
 const Home = React.lazy(() => import("./pages/Home"));
@@ -16,35 +17,45 @@ const PrivateRoute = React.lazy(() => import("./components/PrivateRoute"));
 const AdminRoute = React.lazy(() => import("./components/AdminRoute"));
 
 const App = () => {
-  const location = useLocation(); // To track the current location for transitions
+  return (
+    <ErrorBoundary>
+      <Router>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Navbar />
+          <AnimatedRoutes />
+        </Suspense>
+      </Router>
+    </ErrorBoundary>
+  );
+};
+
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  const nodeRef = useRef(null); // Add a ref for the transitioning node
 
   return (
-    <Router>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Navbar />
-        <TransitionGroup>
-          <CSSTransition
-            key={location.key}
-            timeout={500} // Adjust the duration of the transition
-            classNames="page-transition"
-          >
-            <Routes location={location}>
-              <Route path="/" element={<Home />} />
-              <Route path="/books/:categoryName" element={<BooksList />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/admin/books" element={<AdminRoute><ManageBooks /></AdminRoute>} />
-              <Route path="/book/:id" element={<BookDetails />} />
-              <Route path="/categories" element={<Categories />} />
-              <Route path="/author/:authorId" element={<AuthorProfile />} />
-              
-              {/* PrivateRoute for Home */}
-              <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
-            </Routes>
-          </CSSTransition>
-        </TransitionGroup>
-      </Suspense>
-    </Router>
+    <TransitionGroup>
+      <CSSTransition
+        key={location.key}
+        timeout={500}
+        classNames="page-transition"
+        nodeRef={nodeRef} // Use nodeRef to avoid findDOMNode
+      >
+        <div ref={nodeRef}>
+          <Routes location={location}>
+            <Route path="/" element={<Home />} /> {/* Ensure this is the default route */}
+            <Route path="/books/:categoryName" element={<BooksList />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/admin/books" element={<AdminRoute><ManageBooks /></AdminRoute>} />
+            <Route path="/book/:id" element={<BookDetails />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/author/:authorId" element={<AuthorProfile />} />
+            <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} /> {/* Ensure PrivateRoute points to Home */}
+          </Routes>
+        </div>
+      </CSSTransition>
+    </TransitionGroup>
   );
 };
 

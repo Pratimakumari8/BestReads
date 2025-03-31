@@ -7,6 +7,7 @@ const bookSchema = new mongoose.Schema({
   description: { type: String },
   purchaseLink: { type: String },
   imageUrl: { type: String }, // Optional: Cover Image URL
+  isBookOfTheMonth: { type: Boolean, default: false }, // Add this field
 });
 
 const Book = mongoose.model("Book", bookSchema);

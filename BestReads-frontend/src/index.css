@@ -33,3 +33,47 @@ h1, h2, h3 {
   background-color: #5a3825;
   box-shadow: 3px 3px 0px #3e2723;
 }
+
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 500ms, transform 500ms;
+}
+.page-transition-exit {
+  opacity: 1;
+}
+.page-transition-exit-active {
+  opacity: 0;
+  transition: opacity 500ms;
+}
+
+/* Antique-style border for category cards */
+.category-card .card {
+  background-color: #fff8e1; /* Vintage paper color */
+  border: 2px solid #d4a373; /* Antique border color */
+  box-shadow: 4px 4px 0px #b5651d; /* Shadow for depth */
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-radius: 8px;
+}
+
+/* Hover effects for category cards */
+.category-card .card:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: 6px 6px 0px #8d5524; /* Darker shadow on hover */
+  background-color: #f5e6cc; /* Slightly darker vintage color */
+}
+
+/* Category card text */
+.category-card .card h5 {
+  color: #3e2723; /* Dark brown text */
+  font-family: 'Special Elite', cursive; /* Typewriter effect */
+}
+
+/* Add spacing between category cards */
+.row .col-md-4 {
+  padding: 15px; /* Add padding between columns */
+}

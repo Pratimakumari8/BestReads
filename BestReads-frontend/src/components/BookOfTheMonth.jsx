@@ -6,16 +6,28 @@ import "../styles/bookofthemonth.css"; // Add custom styles
 const BookOfTheMonth = () => {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchBookOfTheMonth = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/book-of-the-month`);
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new Error("Book of the month not found.");
+          }
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
         const data = await response.json();
         setBook(data);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching book of the month:", error);
+        console.error("Error fetching book of the month:", error.message);
+        setError(
+          error.message === "Book of the month not found."
+            ? "No book has been selected for this month."
+            : "Failed to fetch book of the month. Please try again later."
+        );
         setLoading(false);
       }
     };
@@ -24,6 +36,7 @@ const BookOfTheMonth = () => {
   }, []);
 
   if (loading) return <div className="text-center mt-5">Loading Book of the Month...</div>;
+  if (error) return <div className="text-center mt-5">{error}</div>;
   if (!book) return <div className="text-center mt-5">No book selected for this month.</div>;
 
   return (

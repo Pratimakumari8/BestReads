@@ -10,12 +10,32 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    navigate("/categories");
+    try {
+      const apiUrl = `${API_BASE_URL}/auth/login`;
+      console.log("API URL:", apiUrl); // Debug log
+      console.log("Sending login request:", { email, password }); // Debug log
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Login error:", errorData.message); // Debug log
+        alert(errorData.message || "Login failed.");
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Login successful:", data); // Debug log
+      alert("Login successful!");
+      navigate("/"); // Redirect to the home page after login
+    } catch (error) {
+      console.error("Error during login:", error); // Debug log
+      alert("Failed to connect to the server. Please try again later.");
+    }
   };
 
   return (
