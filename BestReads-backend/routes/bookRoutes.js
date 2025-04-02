@@ -10,30 +10,25 @@ router.get("/", async (req, res) => {
   try {
     const { category } = req.query; // Get category from query params
     const page = parseInt(req.query.page) || 1;
-    const limit = 5; // Show 5 books per page
+    const limit = 10; // Show 10 books per page
     const skip = (page - 1) * limit;
 
     let query = {};
 
-    // ✅ Fix: Convert category name to ObjectId
     if (category) {
       const categoryDoc = await Category.findOne({ name: category });
-
       if (!categoryDoc) {
         console.log("Category not found:", category); // Debug log
         return res.status(400).json({ message: "Category not found" });
       }
-
       query.category = categoryDoc._id; // Use ObjectId instead of name
     }
 
-    console.log("Query:", query); // Debug log
     const books = await Book.find(query)
-      .sort({ sales: -1 }) // Sort by most sold
+      .sort({ title: 1 }) // Sort alphabetically by title
       .skip(skip)
       .limit(limit);
 
-    console.log("Books fetched:", books); // Debug log
     const totalBooks = await Book.countDocuments(query);
 
     if (!books.length) {
@@ -47,7 +42,7 @@ router.get("/", async (req, res) => {
       currentPage: page,
     });
   } catch (error) {
-    console.error("Error fetching books:", error); // Debug log
+    console.error("Error fetching books:", error.message); // Log error message
     res.status(500).json({ message: "Error fetching books" });
   }
 });

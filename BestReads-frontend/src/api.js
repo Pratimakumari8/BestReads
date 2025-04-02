@@ -11,9 +11,11 @@ export const fetchBooksByCategory = async (categoryName, limit = 10) => {
     if (!response.ok) {
       throw new Error(`Error fetching books: ${response.statusText}`);
     }
-    return await response.json();
+    const data = await response.json();
+    console.log("Fetched books:", data); // Debug log
+    return data;
   } catch (error) {
-    console.error("Error in fetchBooksByCategory:", error);
+    console.error("Error in fetchBooksByCategory:", error.message); // Log error message
     return { books: [] }; // Return an empty array if there's an error
   }
 };

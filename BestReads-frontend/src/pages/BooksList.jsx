@@ -12,11 +12,10 @@ const BooksList = () => {
     const getBooks = async () => {
       try {
         const data = await fetchBooksByCategory(categoryName, 10); // Fetch top 10 books
-        console.log("API Response:", data); // Debug log to inspect API response
         setBooks(Array.isArray(data.books) ? data.books : []);
         setLoading(false);
       } catch (err) {
-        console.error("Error fetching books:", err); // Debug log
+        console.error("Error fetching books:", err.message); // Log error message
         setError("Failed to fetch books.");
         setLoading(false);
       }
@@ -41,7 +40,7 @@ const BooksList = () => {
             <div className="col-md-4 mb-5" key={book._id || book.id || book.title}>
               <div className="card h-100 antique-border">
                 <img
-                  src={book.imageUrl || "https://via.placeholder.com/150"} // Use imageUrl from the database
+                  src={book.image || "https://via.placeholder.com/150"} // Use `image` from the backend
                   alt={book.title || "Book Image"}
                   className="card-img-top"
                   style={{ height: "250px", objectFit: "cover" }}
@@ -60,7 +59,7 @@ const BooksList = () => {
                     About the Author
                   </Link>
                   <a
-                    href={book.purchaseLink}
+                    href={book.buyLink} // Use `buyLink` from the backend
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn btn-dark btn-sm"
