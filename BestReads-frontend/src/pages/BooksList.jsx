@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { fetchBooksByCategory } from "../api";
 
 const BooksList = () => {
@@ -11,11 +11,12 @@ const BooksList = () => {
   useEffect(() => {
     const getBooks = async () => {
       try {
-        const data = await fetchBooksByCategory(categoryName, 10); // Fetch 10 books
+        const data = await fetchBooksByCategory(categoryName, 10); // Fetch top 10 books
         console.log("API Response:", data); // Debug log to inspect API response
         setBooks(Array.isArray(data.books) ? data.books : []);
         setLoading(false);
       } catch (err) {
+        console.error("Error fetching books:", err); // Debug log
         setError("Failed to fetch books.");
         setLoading(false);
       }
@@ -33,25 +34,39 @@ const BooksList = () => {
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center display-4 fw-bold">{categoryName} Books</h1> {/* Display category name */}
+      <h1 className="text-center display-4 fw-bold">{categoryName} - Top 10 Books</h1>
       <div className="row mt-4">
         {books.length > 0 ? (
           books.map((book) => (
-            <div className="col-md-4 mb-4" key={book._id || book.id || book.title}> {/* Use a fallback key */}
-              <div className="card h-100">
+            <div className="col-md-4 mb-5" key={book._id || book.id || book.title}>
+              <div className="card h-100 antique-border">
                 <img
-                  src={book.image || "https://via.placeholder.com/150"} // Fallback image if book.image is missing
-                  alt={book.title || "Book Image"} // Fallback alt text
+                  src={book.imageUrl || "https://via.placeholder.com/150"} // Use imageUrl from the database
+                  alt={book.title || "Book Image"}
                   className="card-img-top"
                   style={{ height: "250px", objectFit: "cover" }}
                 />
                 <div className="card-body text-center">
-                  <h5 className="card-title">{book.title || "Untitled Book"}</h5> {/* Fallback title */}
+                  <h5 className="card-title">{book.title || "Untitled Book"}</h5>
                   <p className="card-text">
                     {book.description
                       ? book.description.substring(0, 100) + "..."
                       : "No description available."}
                   </p>
+                  <Link
+                    to={`/author/${book.author}`} // Link to the author's page
+                    className="btn btn-outline-dark btn-sm mb-2"
+                  >
+                    About the Author
+                  </Link>
+                  <a
+                    href={book.purchaseLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-dark btn-sm"
+                  >
+                    Buy Now
+                  </a>
                 </div>
               </div>
             </div>

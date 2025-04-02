@@ -5,16 +5,16 @@ export const fetchCategories = async () => {
   return response.json();
 };
 
-export const fetchBooksByCategory = async (categoryName) => {
+export const fetchBooksByCategory = async (categoryName, limit = 10) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/books?category=${categoryName}`);
+    const response = await fetch(`${API_BASE_URL}/books?category=${categoryName}&limit=${limit}`);
     if (!response.ok) {
       throw new Error(`Error fetching books: ${response.statusText}`);
     }
     return await response.json();
   } catch (error) {
     console.error("Error in fetchBooksByCategory:", error);
-    return [];
+    return { books: [] }; // Return an empty array if there's an error
   }
 };
 

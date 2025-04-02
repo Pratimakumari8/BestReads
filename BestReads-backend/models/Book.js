@@ -1,14 +1,12 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const bookSchema = new mongoose.Schema({
+const BookSchema = new mongoose.Schema({
+  category: { type: String, required: true },
   title: { type: String, required: true },
   author: { type: String, required: true },
-  category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
-  description: { type: String },
-  purchaseLink: { type: String },
-  imageUrl: { type: String }, // Optional: Cover Image URL
-  isBookOfTheMonth: { type: Boolean, default: false }, // Add this field
+  image: { type: String, required: true },
+  buyLink: { type: String, required: true },
 });
 
-const Book = mongoose.model("Book", bookSchema);
+const Book = mongoose.model('Book', BookSchema);
 module.exports = Book;
