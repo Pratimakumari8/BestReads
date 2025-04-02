@@ -4,14 +4,17 @@ const FictionBooks = () => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/books') // Use full URL
+    fetch('http://localhost:5000/api/books?category=fiction&limit=10')
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
       })
-      .then((data) => setBooks(data))
+      .then((data) => {
+        console.log('Fetched books:', data);
+        setBooks(data);
+      })
       .catch((error) => console.error('Error fetching books:', error));
   }, []);
 
@@ -23,7 +26,7 @@ const FictionBooks = () => {
           <div key={index} className="book-card">
             <img src={book.image} alt={book.title || 'Book Image'} />
             <h3>{book.title || 'Unknown Title'}</h3>
-            <p>{book.author || 'Unknown Author'}</p> {/* Display author */}
+            <p>{book.author || 'Unknown Author'}</p>
             <a href={book.buyLink} target="_blank" rel="noopener noreferrer">
               Buy Now
             </a>
